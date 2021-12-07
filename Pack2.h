@@ -23,6 +23,6 @@ size_t writeUINT24(void *network_buf, uint32 value);
 size_t readRawUint24(void *host_buf, uint32 *value);
 size_t writeRawUint24(void *host_buf, uint32 value);
 
-
+void pack2_test(void);
 
 #endif /* Pack2_h */

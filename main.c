@@ -3,6 +3,9 @@
 #include "Pack2.h"
 
 int main() {
-    printf("Hello, World!\n");
+
+
+    pack2_test();
+
     return 0;
 }
