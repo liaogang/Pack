@@ -138,7 +138,7 @@ void pack2_test(void)
         ((uint8*)&value)[1] = 0x0b;
         ((uint8*)&value)[2] = 0x0c;
         ((uint8*)&value)[3] = 0x0d;
-        
+
         assert(value == 0x0a0b0c0d);
 
         uint8 buff[3] = {0};

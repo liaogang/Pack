@@ -5,15 +5,13 @@
 #include <string.h> //memcpy
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+
 
 
 ///1 bytes
 
 
-size_t readBYTE(const void *buf, uint8 *value);
+size_t readBYTE(const void *buf, uint8 *value)
 {
     value[0] = *(uint8 *)buf;
     return 1;
@@ -28,21 +26,21 @@ size_t writeBYTE(void *buf, uint8 value)
 
 ///2 bytes
 
-size_t readUINT16(const unsigned char *network_buf, uint16 *value)
+size_t readUINT16(const void *network_buf, uint16 *value)
 {
     value[0] = ntohs(*(uint16*)network_buf);
     return 2;
 }
 
 
-size_t writeUINT16(unsigned char *network_buf, uint16 value)
+size_t writeUINT16(void *network_buf, uint16 value)
 {
     *(uint16*)network_buf = htons(value);
     return 2;
 }
 
 
-size_t writeRawUINT16(unsigned char *host_buf, uint16 value)
+size_t writeRawUINT16(void *host_buf, uint16 value)
 {
     *(uint16*)host_buf = value;
     return 2;
@@ -127,14 +125,14 @@ size_t writeRawUINT64(void *host_buf, uint64 value)
  We then extract and concatenate the 7-bit parts.
  @return readed bytes
  */
-int readVINT(const unsigned char *network_buf, uint64 *vint)
+size_t readVINT(const void *network_buf, uint64 *vint)
 {
     int byte_index = 0;
     uint64_t collect = 0;
     unsigned char curr_byte;
 
     do{
-        curr_byte = network_buf[byte_index];
+        curr_byte = ((uint8*)network_buf)[byte_index];
 
         uint64_t payload = curr_byte & 0b01111111;
 
@@ -151,13 +149,13 @@ int readVINT(const unsigned char *network_buf, uint64 *vint)
 
 
 //变长整数,  把vint 化为 变长整数，写入buff,return: writed bytes
-int writeVINT(unsigned char *network_buf, uint64 vint)
+size_t writeVINT(void *network_buf, uint64 vint)
 {
     int pos = 0;
     while (vint >= 0x80)
     {
         unsigned char t = 0x80 + vint % 0x80;
-        network_buf[pos] = t;
+        ((uint8*)network_buf)[pos] = t;
         pos++;
         
         vint /= 0x80;
@@ -165,7 +163,7 @@ int writeVINT(unsigned char *network_buf, uint64 vint)
     
     
     unsigned char t = vint % 0x80;
-    network_buf[pos] = t;
+    ((uint8*)network_buf)[pos] = t;
     pos++;
     
     return pos;
@@ -187,21 +185,22 @@ int writeVINT(unsigned char *network_buf, uint64 vint)
 
     
 
-unsigned int readRaw(const unsigned char *buff, unsigned char *rawBytes, int len)
+size_t readRaw(const void *host_buff, void *rawBytes, size_t len)
 {
-    memcpy(rawBytes, buff, len);
-    return len;
-}
-    
-
-unsigned int writeRaw(unsigned char *buff, unsigned char *rawBytes, int len)
-{
-    memcpy(buff, rawBytes, len);
+    memcpy(rawBytes, host_buff, len);
     return len;
 }
 
 
-
-#ifdef __cplusplus
+size_t writeRaw(void *host_buff, const void *rawBytes, size_t len)
+{
+    memcpy(host_buff, rawBytes, len);
+    return len;
 }
-#endif
+
+void pack_test(void)
+{
+
+}
+
+

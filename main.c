@@ -4,6 +4,7 @@
 
 int main() {
 
+    pack_test();
 
     pack2_test();
 

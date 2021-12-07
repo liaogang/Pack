@@ -53,8 +53,12 @@ size_t writeVINT(void *network_buf, uint64 vint);
 ///multi bytes or string
 
 
-size_t writeRaw(void *host_buf, const void *rawBytes, int len);
-size_t readRaw(const void *host_buf, const void *rawBytes, int len);
+size_t writeRaw(void *host_buf, const void *rawBytes, size_t len);
+size_t readRaw(const void *host_buff, void *rawBytes, size_t len);
 
+
+
+
+void pack_test(void);
 
 #endif /* Pack_h */

@@ -3,4 +3,4 @@ project(Pack C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(Pack main.c Pack2.c)
+add_executable(Pack main.c Pack.c Pack2.c)
