@@ -7,6 +7,11 @@
 #ifndef Pack_h
 #define Pack_h
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 
 ///1 bytes
 
@@ -57,8 +62,21 @@ size_t writeRaw(void *host_buf, const void *rawBytes, size_t len);
 size_t readRaw(const void *host_buff, void *rawBytes, size_t len);
 
 
+//write key string and value buffer
+size_t writeKV(uint8 *buffer,
+                     const uint8 *keybuf,
+                     unsigned int keylen,
+                     const uint8 *valuebuf,
+                     unsigned int valuelen);
 
+//write key string and value string
+size_t writeKVString(uint8 *buffer, const char *keyString, const char *valueString);
 
 void pack_test(void);
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* Pack_h */

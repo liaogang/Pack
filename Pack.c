@@ -198,6 +198,35 @@ size_t writeRaw(void *host_buff, const void *rawBytes, size_t len)
     return len;
 }
 
+
+
+
+//write key string and value buffer
+size_t writeKV(uint8 *buffer,
+                     const uint8 *keybuf,
+                     unsigned int keylen,
+                     const uint8 *valuebuf,
+                     unsigned int valuelen)
+{
+    unsigned char *curr = buffer;
+
+    curr += writeUINT32(curr, keylen);
+    curr += writeRaw(curr, (unsigned char*)keybuf, keylen);
+
+    curr += writeUINT32(curr, valuelen);
+    curr += writeRaw(curr, (unsigned char*)valuebuf, valuelen);
+
+    return (unsigned int)(curr - buffer);
+}
+
+//write key string and value string
+size_t writeKVString(uint8 *buffer, const char *keyString, const char *valueString)
+{
+    return writeKV(buffer, keyString, (unsigned int)strlen(keyString), (const unsigned char*)valueString, (unsigned int)strlen(valueString));
+}
+
+
+
 void pack_test(void)
 {
 
