@@ -193,8 +193,10 @@ size_t readRaw(const void *host_buff, void *rawBytes, size_t len)
 
 
 size_t writeRaw(void *host_buff, const void *rawBytes, size_t len)
-{
-    memcpy(host_buff, rawBytes, len);
+{   
+    if (len > 0) {
+        memcpy(host_buff, rawBytes, len);
+    }
     return len;
 }
 
